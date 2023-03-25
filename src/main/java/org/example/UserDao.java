@@ -7,7 +7,7 @@ public class UserDao {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-        jdbcTemplate.executeUpdate(user, sql, pstmt -> {
+        jdbcTemplate.executeUpdate(sql, pstmt -> {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getName());
@@ -19,7 +19,7 @@ public class UserDao {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         String sql = "SELECT userId, password, name, email FROM USERS WHERE userId = ?";
-        return (User) jdbcTemplate.executeQuery(userId, sql,
+        return (User) jdbcTemplate.executeQuery(sql,
                 pstmt -> pstmt.setString(1, userId),
                 resultset -> new User(resultset.getString("userId"), resultset.getString("password"), resultset.getString("name"), resultset.getString("email")));
     }

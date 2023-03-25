@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class JdbcTemplate {
 
-    public void executeUpdate(User user, String sql, PreparedStatementSetter pss) throws SQLException {
+    public void executeUpdate(String sql, PreparedStatementSetter pss) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -27,7 +27,7 @@ public class JdbcTemplate {
         }
     }
 
-    public Object executeQuery(String userId, String sql, PreparedStatementSetter pss, RowMapper rowMapper) throws SQLException {
+    public Object executeQuery(String sql, PreparedStatementSetter pss, RowMapper rowMapper) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
