@@ -3,15 +3,36 @@ package org.example;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ConnectionManager {
-    public static DataSource getDataSource() {
+    private static final String DB_DRIVER = "org.h2.Driver";
+    private static final String DB_URL = "jdbc:h2:tcp://localhost/~/study;MODE=MYSQL";
+    private static final int MAX_POOL_SIZE = 40;
+    private static final DataSource ds;
+
+    static {
         HikariDataSource hikariDataSource = new HikariDataSource();
-        hikariDataSource.setDriverClassName("org.h2.Driver");
-        hikariDataSource.setJdbcUrl("jdbc:h2:tcp://localhost/~/study;MODE=MYSQL");
+        hikariDataSource.setDriverClassName(DB_DRIVER);
+        hikariDataSource.setJdbcUrl(DB_URL);
         hikariDataSource.setUsername("sa");
         hikariDataSource.setPassword("123");
+        hikariDataSource.setMaximumPoolSize(MAX_POOL_SIZE);
+        hikariDataSource.setMinimumIdle(MAX_POOL_SIZE);
 
-        return hikariDataSource;
+        ds = hikariDataSource;
+    }
+
+    public static Connection getConnection() {
+        try {
+            return ds.getConnection();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static DataSource getDataSource() {
+        return ds;
     }
 }
